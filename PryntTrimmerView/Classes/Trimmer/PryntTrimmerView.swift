@@ -121,42 +121,43 @@ public protocol TrimmerViewDelegate: class {
     }
 
     private func setupHandleView() {
-
         leftHandleView.isUserInteractionEnabled = true
         leftHandleView.layer.cornerRadius = 2.0
         leftHandleView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(leftHandleView)
-
-        leftHandleView.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
-        leftHandleView.widthAnchor.constraint(equalToConstant: handleWidth).isActive = true
-        leftHandleView.leftAnchor.constraint(equalTo: trimView.leftAnchor).isActive = true
-        leftHandleView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-
+        
         leftHandleKnob.translatesAutoresizingMaskIntoConstraints = false
         leftHandleView.addSubview(leftHandleKnob)
-
-        leftHandleKnob.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5).isActive = true
-        leftHandleKnob.widthAnchor.constraint(equalToConstant: 2).isActive = true
-        leftHandleKnob.centerYAnchor.constraint(equalTo: leftHandleView.centerYAnchor).isActive = true
-        leftHandleKnob.centerXAnchor.constraint(equalTo: leftHandleView.centerXAnchor).isActive = true
-
+        
         rightHandleView.isUserInteractionEnabled = true
         rightHandleView.layer.cornerRadius = 2.0
         rightHandleView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(rightHandleView)
-
-        rightHandleView.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
-        rightHandleView.widthAnchor.constraint(equalToConstant: handleWidth).isActive = true
-        rightHandleView.rightAnchor.constraint(equalTo: trimView.rightAnchor).isActive = true
-        rightHandleView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-
+        
         rightHandleKnob.translatesAutoresizingMaskIntoConstraints = false
         rightHandleView.addSubview(rightHandleKnob)
-
-        rightHandleKnob.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5).isActive = true
-        rightHandleKnob.widthAnchor.constraint(equalToConstant: 2).isActive = true
-        rightHandleKnob.centerYAnchor.constraint(equalTo: rightHandleView.centerYAnchor).isActive = true
-        rightHandleKnob.centerXAnchor.constraint(equalTo: rightHandleView.centerXAnchor).isActive = true
+        
+        NSLayoutConstraint.activate([
+            leftHandleView.heightAnchor.constraint(equalTo: heightAnchor),
+            leftHandleView.widthAnchor.constraint(equalToConstant: handleWidth),
+            leftHandleView.leftAnchor.constraint(equalTo: trimView.leftAnchor),
+            leftHandleView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            leftHandleKnob.heightAnchor.constraint(equalToConstant: 28),
+            leftHandleKnob.widthAnchor.constraint(equalToConstant: 2),
+            leftHandleKnob.centerYAnchor.constraint(equalTo: leftHandleView.centerYAnchor),
+            leftHandleKnob.centerXAnchor.constraint(equalTo: leftHandleView.centerXAnchor),
+            
+            rightHandleView.heightAnchor.constraint(equalTo: heightAnchor),
+            rightHandleView.widthAnchor.constraint(equalToConstant: handleWidth),
+            rightHandleView.rightAnchor.constraint(equalTo: trimView.rightAnchor),
+            rightHandleView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            rightHandleKnob.heightAnchor.constraint(equalToConstant: 28),
+            rightHandleKnob.widthAnchor.constraint(equalToConstant: 2),
+            rightHandleKnob.centerYAnchor.constraint(equalTo: rightHandleView.centerYAnchor),
+            rightHandleKnob.centerXAnchor.constraint(equalTo: rightHandleView.centerXAnchor)
+            ])
     }
 
     private func setupMaskView() {
