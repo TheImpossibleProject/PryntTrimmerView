@@ -122,7 +122,6 @@ public protocol TrimmerViewDelegate: class {
 
     private func setupHandleView() {
         leftHandleView.isUserInteractionEnabled = true
-        leftHandleView.layer.cornerRadius = 2.0
         leftHandleView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(leftHandleView)
         
@@ -130,12 +129,26 @@ public protocol TrimmerViewDelegate: class {
         leftHandleView.addSubview(leftHandleKnob)
         
         rightHandleView.isUserInteractionEnabled = true
-        rightHandleView.layer.cornerRadius = 2.0
         rightHandleView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(rightHandleView)
         
         rightHandleKnob.translatesAutoresizingMaskIntoConstraints = false
         rightHandleView.addSubview(rightHandleKnob)
+        
+        if #available(iOS 11, *) {
+            [leftHandleKnob, rightHandleKnob].forEach {
+                $0.clipsToBounds = true
+                $0.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
+                $0.layer.cornerRadius = 2
+            }
+            leftHandleView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+            leftHandleView.clipsToBounds = true
+            leftHandleView.layer.cornerRadius = 2
+            
+            rightHandleView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+            rightHandleView.clipsToBounds = true
+            rightHandleView.layer.cornerRadius = 2
+        }
         
         NSLayoutConstraint.activate([
             leftHandleView.heightAnchor.constraint(equalTo: heightAnchor),
@@ -144,7 +157,7 @@ public protocol TrimmerViewDelegate: class {
             leftHandleView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             leftHandleKnob.heightAnchor.constraint(equalToConstant: 28),
-            leftHandleKnob.widthAnchor.constraint(equalToConstant: 2),
+            leftHandleKnob.widthAnchor.constraint(equalToConstant: 4),
             leftHandleKnob.centerYAnchor.constraint(equalTo: leftHandleView.centerYAnchor),
             leftHandleKnob.centerXAnchor.constraint(equalTo: leftHandleView.centerXAnchor),
             
@@ -154,7 +167,7 @@ public protocol TrimmerViewDelegate: class {
             rightHandleView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             rightHandleKnob.heightAnchor.constraint(equalToConstant: 28),
-            rightHandleKnob.widthAnchor.constraint(equalToConstant: 2),
+            rightHandleKnob.widthAnchor.constraint(equalToConstant: 4),
             rightHandleKnob.centerYAnchor.constraint(equalTo: rightHandleView.centerYAnchor),
             rightHandleKnob.centerXAnchor.constraint(equalTo: rightHandleView.centerXAnchor)
             ])
@@ -187,19 +200,22 @@ public protocol TrimmerViewDelegate: class {
 
     private func setupPositionBar() {
 
-        positionBar.frame = CGRect(x: 0, y: 0, width: 3, height: frame.height)
+        positionBar.frame = CGRect(x: 0, y: 0, width: 6, height: frame.height)
         positionBar.backgroundColor = positionBarColor
         positionBar.center = CGPoint(x: leftHandleView.frame.maxX, y: center.y)
-        positionBar.layer.cornerRadius = 1
+        positionBar.layer.cornerRadius = 3
         positionBar.translatesAutoresizingMaskIntoConstraints = false
         positionBar.isUserInteractionEnabled = false
         addSubview(positionBar)
 
-        positionBar.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        positionBar.widthAnchor.constraint(equalToConstant: 3).isActive = true
-        positionBar.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
         positionConstraint = positionBar.leftAnchor.constraint(equalTo: leftHandleView.rightAnchor, constant: 0)
-        positionConstraint?.isActive = true
+        
+        NSLayoutConstraint.activate([
+            positionBar.centerYAnchor.constraint(equalTo: centerYAnchor),
+            positionBar.widthAnchor.constraint(equalToConstant: 6),
+            positionBar.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.95),
+            positionConstraint!
+            ])
     }
 
     private func setupGestures() {
